@@ -36,8 +36,8 @@ public class ConcreteFuseFS extends FuseStubFS {
     // Constructors.
 
     @Inject
-    public ConcreteFuseFS(@NonNull FuseLockManager fuseLockManager, @NonNull FuseFileManager fileManager, @NonNull FuseDirectoryManager directoryManager,
-                          @NonNull FuseLinkManager linkManager, @NonNull FuseFSActionManager fsActionManager) {
+    ConcreteFuseFS(@NonNull FuseLockManager fuseLockManager, @NonNull FuseFileManager fileManager, @NonNull FuseDirectoryManager directoryManager,
+                   @NonNull FuseLinkManager linkManager, @NonNull FuseFSActionManager fsActionManager) {
         this.fuseLockManager = fuseLockManager;
         this.fileManager = fileManager;
         this.directoryManager = directoryManager;

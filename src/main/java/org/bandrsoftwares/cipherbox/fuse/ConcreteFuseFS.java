@@ -1,4 +1,4 @@
-package org.bandrsoftwares.cipherbox;
+package org.bandrsoftwares.cipherbox.fuse;
 
 import jnr.ffi.Pointer;
 import lombok.NonNull;
@@ -14,7 +14,7 @@ import ru.serce.jnrfuse.struct.Timespec;
 import javax.inject.Inject;
 
 @Slf4j
-public class FuseAdapter extends FuseStubFS {
+public class ConcreteFuseFS extends FuseStubFS {
 
     // Variables.
 
@@ -36,8 +36,8 @@ public class FuseAdapter extends FuseStubFS {
     // Constructors.
 
     @Inject
-    public FuseAdapter(@NonNull FuseLockManager fuseLockManager, @NonNull FuseFileManager fileManager, @NonNull FuseDirectoryManager directoryManager,
-                       @NonNull FuseLinkManager linkManager, @NonNull FuseFSActionManager fsActionManager) {
+    public ConcreteFuseFS(@NonNull FuseLockManager fuseLockManager, @NonNull FuseFileManager fileManager, @NonNull FuseDirectoryManager directoryManager,
+                          @NonNull FuseLinkManager linkManager, @NonNull FuseFSActionManager fsActionManager) {
         this.fuseLockManager = fuseLockManager;
         this.fileManager = fileManager;
         this.directoryManager = directoryManager;

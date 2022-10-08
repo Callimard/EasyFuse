@@ -1,4 +1,4 @@
-package org.bandrsoftwares.cipherbox;
+package org.bandrsoftwares.cipherbox.fuse;
 
 import jnr.ffi.Pointer;
 import ru.serce.jnrfuse.struct.FuseFileInfo;

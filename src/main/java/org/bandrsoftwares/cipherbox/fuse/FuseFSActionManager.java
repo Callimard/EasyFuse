@@ -1,4 +1,4 @@
-package org.bandrsoftwares.cipherbox;
+package org.bandrsoftwares.cipherbox.fuse;
 
 import ru.serce.jnrfuse.struct.FileStat;
 import ru.serce.jnrfuse.struct.Statvfs;

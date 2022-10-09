@@ -4,7 +4,7 @@ import jnr.ffi.Pointer;
 
 public interface FuseLinkManager {
 
-    int symlink(String oldPath, String newPath);
+    int symlink(String targetPath, String linkPath);
 
     int readlink(String path, Pointer buf, long size);
 }

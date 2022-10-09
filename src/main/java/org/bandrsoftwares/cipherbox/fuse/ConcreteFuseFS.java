@@ -186,12 +186,12 @@ public class ConcreteFuseFS extends FuseStubFS {
     // ------------- Link -------------
 
     @Override
-    public int symlink(String oldPath, String newPath) {
+    public int symlink(String targetPath, String linkPath) {
         // TODO Add lock
         try {
-            return linkManager.symlink(oldPath, newPath);
+            return linkManager.symlink(targetPath, linkPath);
         } catch (RuntimeException e) {
-            log.error("Fail to create symbolic link for oldPath " + oldPath + " and newPath " + newPath, e);
+            log.error("Fail to create symbolic link for targetPath " + targetPath + " and linkPath " + linkPath, e);
             return -ErrorCodes.EIO();
         }
     }

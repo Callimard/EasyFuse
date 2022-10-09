@@ -73,7 +73,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to create file " + physicalPath + " because access denied", e);
             return -ErrorCodes.EACCES();
         } catch (IOException e) {
-            log.error("Fail to create file " + physicalPath + " due to IO errors", e);
+            log.error("Fail to create file " + physicalPath + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }
@@ -98,7 +98,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to open file " + physicalPath + " because access denied", e);
             return -ErrorCodes.EACCES();
         } catch (IOException e) {
-            log.error("Fail to open file " + physicalPath + " due to IO errors", e);
+            log.error("Fail to open file " + physicalPath + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }
@@ -113,7 +113,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to read file " + fi.fh.longValue() + " because already closed channel", e);
             return -ErrorCodes.EBADF();
         } catch (IOException e) {
-            log.error("Fail to read file " + fi.fh.longValue() + " due to IO errors", e);
+            log.error("Fail to read file " + fi.fh.longValue() + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }
@@ -128,7 +128,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to write file " + fi.fh.longValue() + " because already closed channel", e);
             return -ErrorCodes.EBADF();
         } catch (IOException e) {
-            log.error("Fail to write file " + fi.fh.longValue() + " due to IO errors", e);
+            log.error("Fail to write file " + fi.fh.longValue() + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }
@@ -144,7 +144,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to truncate file " + physicalPath + " file does not exists", e);
             return -ErrorCodes.ENOENT();
         } catch (IOException e) {
-            log.error("Fail to truncate file " + physicalPath + " due to IO errors", e);
+            log.error("Fail to truncate file " + physicalPath + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }
@@ -160,7 +160,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to ftruncate file " + fi.fh.longValue() + " because already closed channel", e);
             return -ErrorCodes.EBADF();
         } catch (IOException e) {
-            log.error("Fail to ftruncate file " + fi.fh.longValue() + " due to IO errors", e);
+            log.error("Fail to ftruncate file " + fi.fh.longValue() + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }
@@ -191,7 +191,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to utimens file " + physicalPath + " file does not exists", e);
             return -ErrorCodes.ENOENT();
         } catch (IOException e) {
-            log.error("Fail to utimens file " + physicalPath + " due to IO errors", e);
+            log.error("Fail to utimens file " + physicalPath + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }
@@ -219,7 +219,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to fsync file " + fi.fh.longValue() + " because already closed channel", e);
             return -ErrorCodes.EBADF();
         } catch (IOException e) {
-            log.error("Fail to fsync file " + fi.fh.longValue() + " due to IO errors", e);
+            log.error("Fail to fsync file " + fi.fh.longValue() + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }
@@ -234,7 +234,7 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
             log.warn("Fail to release file " + fi.fh.longValue() + " because already closed channel", e);
             return -ErrorCodes.EBADF();
         } catch (IOException e) {
-            log.error("Fail to release file " + fi.fh.longValue() + " due to IO errors", e);
+            log.error("Fail to release file " + fi.fh.longValue() + " due to IO error", e);
             return -ErrorCodes.EIO();
         }
     }

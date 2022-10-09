@@ -96,11 +96,15 @@ public abstract class NIOFuseDirectoryManager extends NIOFuseManager implements 
     }
 
     /**
+     * Transform the specified file name to get the displayed file name in a fuse directory.
+     *
      * @param fileName the file name to transform
      *
      * @return a transformed file name which will be the file name displayed in a fuse fs directory
      */
-    protected abstract String getDisplayedName(@NonNull String fileName);
+    protected String getDisplayedName(@NonNull String fileName) {
+        return fileName;
+    }
 
     @Override
     public int rmdir(String path) {

@@ -4,7 +4,7 @@ import jnr.ffi.Pointer;
 
 import java.io.IOException;
 
-public interface FileReference {
+public interface FileReference extends AutoCloseable {
 
     int read(Pointer buf, long size, long offset) throws IOException;
 

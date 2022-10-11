@@ -1,5 +1,7 @@
 package org.bandrsoftwares.cipherbox.fuse.nio;
 
+import lombok.NonNull;
+
 import java.io.IOException;
 import java.nio.channels.ClosedChannelException;
 import java.nio.file.FileAlreadyExistsException;
@@ -33,7 +35,8 @@ public interface FileReferenceFactory {
      * @throws FileAlreadyExistsException if the physical path already exists
      * @throws IOException                if IO error occurs
      */
-    long create(Path physicalPath, Set<OpenOption> openOptions, FileAttribute<?>... attributes) throws IOException, NotFileException;
+    long create(@NonNull Path physicalPath, @NonNull Set<OpenOption> openOptions, FileAttribute<?>... attributes)
+            throws IOException, NotFileException;
 
     /**
      * @param physicalPath physical path
@@ -46,7 +49,7 @@ public interface FileReferenceFactory {
      * @throws IOException         if IO error occurs
      * @throws NotFileException    if the physical path is not a file
      */
-    long open(Path physicalPath, Set<? extends OpenOption> openOptions, FileAttribute<?>... attributes) throws IOException, NotFileException;
+    long open(@NonNull Path physicalPath, @NonNull Set<OpenOption> openOptions, FileAttribute<?>... attributes) throws IOException, NotFileException;
 
     /**
      * @param fileHandle the file handle

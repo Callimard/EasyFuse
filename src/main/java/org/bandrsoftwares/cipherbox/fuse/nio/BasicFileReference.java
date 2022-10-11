@@ -3,6 +3,7 @@ package org.bandrsoftwares.cipherbox.fuse.nio;
 import jnr.ffi.Pointer;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 
 @Slf4j
+@ToString
 @Getter
 public class BasicFileReference implements FileReference {
 
@@ -20,11 +22,13 @@ public class BasicFileReference implements FileReference {
 
     // Variables.
 
+    @ToString.Exclude
     private final int bufferSize;
 
     @NonNull
     private final Path path;
 
+    @ToString.Exclude
     @NonNull
     private final FileChannel fileChannel;
 
@@ -111,7 +115,7 @@ public class BasicFileReference implements FileReference {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws IOException {
         fileChannel.close();
     }
 }

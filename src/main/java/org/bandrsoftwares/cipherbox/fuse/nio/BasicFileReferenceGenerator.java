@@ -5,12 +5,14 @@ import lombok.NonNull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Qualifier;
+import javax.inject.Singleton;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 
+@Singleton
 public class BasicFileReferenceGenerator implements FileReferenceGenerator {
 
     // Variables.

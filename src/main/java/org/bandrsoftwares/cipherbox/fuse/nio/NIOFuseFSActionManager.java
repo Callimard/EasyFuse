@@ -8,6 +8,8 @@ import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.struct.FileStat;
 import ru.serce.jnrfuse.struct.Statvfs;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -16,7 +18,8 @@ import java.nio.file.attribute.PosixFileAttributes;
 import java.util.Set;
 
 @Slf4j
-public abstract class NIOFuseFSActionManager extends NIOFuseManager implements FuseFSActionManager {
+@Singleton
+public class NIOFuseFSActionManager extends NIOFuseManager implements FuseFSActionManager {
 
     // Constants.
 
@@ -29,7 +32,8 @@ public abstract class NIOFuseFSActionManager extends NIOFuseManager implements F
 
     // Constructors.
 
-    protected NIOFuseFSActionManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
+    @Inject
+    NIOFuseFSActionManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
         super(pathRecover);
         this.fileAttributesUtil = fileAttributesUtil;
     }

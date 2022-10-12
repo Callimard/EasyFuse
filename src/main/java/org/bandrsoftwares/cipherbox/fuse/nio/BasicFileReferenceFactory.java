@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.nio.channels.ClosedChannelException;
 import java.nio.channels.FileChannel;
@@ -19,6 +20,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Slf4j
+@Singleton
 public class BasicFileReferenceFactory implements FileReferenceFactory {
 
     // Variables.

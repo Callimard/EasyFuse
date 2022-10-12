@@ -7,10 +7,12 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
+@Singleton
 public class BasicFuseLockManager implements FuseLockManager {
 
     // Variables.

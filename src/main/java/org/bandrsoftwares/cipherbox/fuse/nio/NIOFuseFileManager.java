@@ -10,6 +10,8 @@ import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
 import ru.serce.jnrfuse.struct.Timespec;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.nio.channels.ClosedChannelException;
 import java.nio.channels.FileChannel;
@@ -20,7 +22,8 @@ import java.time.Instant;
 import java.util.Set;
 
 @Slf4j
-public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseFileManager {
+@Singleton
+public class NIOFuseFileManager extends NIOFuseManager implements FuseFileManager {
 
     // Constants.
 
@@ -37,8 +40,9 @@ public abstract class NIOFuseFileManager extends NIOFuseManager implements FuseF
 
     // Constructors.
 
-    protected NIOFuseFileManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileReferenceFactory fileFactory,
-                                 @NonNull FileAttributesUtil fileAttributesUtil) {
+    @Inject
+    NIOFuseFileManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileReferenceFactory fileFactory,
+                       @NonNull FileAttributesUtil fileAttributesUtil) {
         super(pathRecover);
         this.fileFactory = fileFactory;
         this.fileAttributesUtil = fileAttributesUtil;

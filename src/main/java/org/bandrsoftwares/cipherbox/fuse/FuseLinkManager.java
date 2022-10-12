@@ -2,7 +2,7 @@ package org.bandrsoftwares.cipherbox.fuse;
 
 import jnr.ffi.Pointer;
 
-public interface FuseLinkManager {
+public interface FuseLinkManager extends FuseManager{
 
     int symlink(String targetPath, String linkPath);
 

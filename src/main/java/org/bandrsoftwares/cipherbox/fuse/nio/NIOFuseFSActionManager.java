@@ -1,6 +1,7 @@
 package org.bandrsoftwares.cipherbox.fuse.nio;
 
 import com.google.common.collect.Iterables;
+import jnr.posix.util.Platform;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.bandrsoftwares.cipherbox.fuse.FuseFSActionManager;
@@ -110,9 +111,9 @@ public class NIOFuseFSActionManager extends NIOFuseManager implements FuseFSActi
             mode = mode & 0555;
             fileStat.st_mode.set(FileStat.S_IFREG | mode);
         } else {
-            fileStat.st_mode.set(FileStat.S_IFREG | 0444);
+            fileStat.st_mode.set(FileStat.S_IFREG | 0777);
         }
-        fileAttributesUtil.copyBasicFileAttributesFromNioToFuse(attributes, fileStat);
+        copyBasicFileAttributesFromNioToFuse(attributes, fileStat);
         return 0;
     }
 
@@ -122,9 +123,9 @@ public class NIOFuseFSActionManager extends NIOFuseManager implements FuseFSActi
             mode = mode & 0555;
             fileStat.st_mode.set(FileStat.S_IFDIR | mode);
         } else {
-            fileStat.st_mode.set(FileStat.S_IFDIR | 0555);
+            fileStat.st_mode.set(FileStat.S_IFDIR | 0777);
         }
-        fileAttributesUtil.copyBasicFileAttributesFromNioToFuse(attributes, fileStat);
+        copyBasicFileAttributesFromNioToFuse(attributes, fileStat);
         return 0;
     }
 
@@ -134,10 +135,43 @@ public class NIOFuseFSActionManager extends NIOFuseManager implements FuseFSActi
             mode = mode & 0555;
             fileStat.st_mode.set(FileStat.S_IFLNK | mode);
         } else {
-            fileStat.st_mode.set(FileStat.S_IFLNK | 0555);
+            fileStat.st_mode.set(FileStat.S_IFLNK | 0777);
         }
-        fileAttributesUtil.copyBasicFileAttributesFromNioToFuse(attributes, fileStat);
+        copyBasicFileAttributesFromNioToFuse(attributes, fileStat);
         return 0;
+    }
+
+    protected void copyBasicFileAttributesFromNioToFuse(BasicFileAttributes attrs, FileStat stat) {
+        if (attrs.isDirectory()) {
+            stat.st_mode.set(stat.st_mode.longValue() | FileStat.S_IFDIR);
+        } else if (attrs.isRegularFile()) {
+            stat.st_mode.set(stat.st_mode.longValue() | FileStat.S_IFREG);
+        } else if (attrs.isSymbolicLink()) {
+            stat.st_mode.set(stat.st_mode.longValue() | FileStat.S_IFLNK);
+        }
+        stat.st_uid.set(getFuseFS().getContext().uid.get());
+        stat.st_gid.set(getFuseFS().getContext().gid.get());
+
+        stat.st_mtim.tv_sec.set(attrs.lastModifiedTime().toInstant().getEpochSecond());
+        stat.st_mtim.tv_nsec.set(attrs.lastModifiedTime().toInstant().getNano());
+        stat.st_ctim.tv_sec.set(attrs.creationTime().toInstant().getEpochSecond());
+        stat.st_ctim.tv_nsec.set(attrs.creationTime().toInstant().getNano());
+
+        if (Platform.IS_MAC || Platform.IS_WINDOWS) {
+            stat.st_birthtime.tv_sec.set(attrs.creationTime().toInstant().getEpochSecond());
+            stat.st_birthtime.tv_nsec.set(attrs.creationTime().toInstant().getNano());
+        }
+
+        stat.st_atim.tv_sec.set(attrs.lastAccessTime().toInstant().getEpochSecond());
+        stat.st_atim.tv_nsec.set(attrs.lastAccessTime().toInstant().getNano());
+        stat.st_size.set(attrs.size());
+        stat.st_nlink.set(1);
+        // make sure to nil certain fields known to contain garbage from uninitialized memory
+        // fixes alleged permission bugs, see https://github.com/cryptomator/fuse-nio-adapter/issues/19
+        if (Platform.IS_MAC) {
+            stat.st_flags.set(0);
+            stat.st_gen.set(0);
+        }
     }
 
     @Override

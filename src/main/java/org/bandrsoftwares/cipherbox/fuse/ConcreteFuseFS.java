@@ -268,6 +268,12 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public Pointer init(Pointer conn) {
+        fuseLockManager.init(this);
+        fileManager.init(this);
+        directoryManager.init(this);
+        linkManager.init(this);
+        fsActionManager.init(this);
+
         return conn;
     }
 

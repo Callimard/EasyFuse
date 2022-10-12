@@ -4,7 +4,7 @@ import jnr.ffi.Pointer;
 import ru.serce.jnrfuse.FuseFillDir;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
 
-public interface FuseDirectoryManager {
+public interface FuseDirectoryManager extends FuseManager {
 
     int mkdir(String path, long mode);
 

@@ -26,6 +26,8 @@ public class BasicFuseLockManager implements FuseLockManager {
 
     private final LoadingCache<Path, PathLock> cache = CacheBuilder.newBuilder().build(lockLoader);
 
+    private ConcreteFuseFS fuseFS;
+
     // Constructors.
 
     @Inject
@@ -43,6 +45,17 @@ public class BasicFuseLockManager implements FuseLockManager {
             log.error("Fail to get lock in cache for the path " + path, e);
             throw new FailLoadingPathLockException(e);
         }
+    }
+
+    @Override
+    public ConcreteFuseFS getFuseFS() {
+        return fuseFS;
+    }
+
+    @Override
+    public void init(@NonNull ConcreteFuseFS fuseFS) {
+        if (!hasBeenInitialized())
+            this.fuseFS = fuseFS;
     }
 
     // Inner classes.

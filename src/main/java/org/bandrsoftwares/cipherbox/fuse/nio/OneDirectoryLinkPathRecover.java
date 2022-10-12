@@ -5,6 +5,7 @@ import lombok.NonNull;
 
 import javax.inject.Inject;
 import javax.inject.Qualifier;
+import javax.inject.Singleton;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,6 +18,7 @@ import java.nio.file.Path;
  * The method {@link #recover(Path)} only call {@link Path#resolve(Path)} to create the physical path of a fuse path.
  */
 @Getter
+@Singleton
 public class OneDirectoryLinkPathRecover implements PhysicalPathRecover {
 
     // Variables.

@@ -6,17 +6,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.bandrsoftwares.cipherbox.fuse.FuseLinkManager;
 import ru.serce.jnrfuse.ErrorCodes;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
 @Slf4j
-public abstract class NIOFuseLinkManager extends NIOFuseManager implements FuseLinkManager {
+@Singleton
+public class NIOFuseLinkManager extends NIOFuseManager implements FuseLinkManager {
 
     // Constructors.
 
-    protected NIOFuseLinkManager(@NonNull PhysicalPathRecover pathRecover) {
+    @Inject
+    NIOFuseLinkManager(@NonNull PhysicalPathRecover pathRecover) {
         super(pathRecover);
     }
 

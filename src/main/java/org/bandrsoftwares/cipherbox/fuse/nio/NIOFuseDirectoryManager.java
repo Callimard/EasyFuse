@@ -9,12 +9,15 @@ import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.FuseFillDir;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.Iterator;
 
 @Slf4j
-public abstract class NIOFuseDirectoryManager extends NIOFuseManager implements FuseDirectoryManager {
+@Singleton
+public class NIOFuseDirectoryManager extends NIOFuseManager implements FuseDirectoryManager {
 
     // Constants.
 
@@ -24,7 +27,8 @@ public abstract class NIOFuseDirectoryManager extends NIOFuseManager implements 
 
     // Constructors.
 
-    protected NIOFuseDirectoryManager(@NonNull PhysicalPathRecover pathRecover) {
+    @Inject
+    NIOFuseDirectoryManager(@NonNull PhysicalPathRecover pathRecover) {
         super(pathRecover);
     }
 

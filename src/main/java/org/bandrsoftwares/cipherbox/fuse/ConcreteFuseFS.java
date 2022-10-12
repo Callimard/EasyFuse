@@ -12,9 +12,11 @@ import ru.serce.jnrfuse.struct.Statvfs;
 import ru.serce.jnrfuse.struct.Timespec;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.nio.file.Paths;
 
 @Slf4j
+@Singleton
 public class ConcreteFuseFS extends FuseStubFS {
 
     // Variables.

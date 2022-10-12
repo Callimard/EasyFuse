@@ -5,12 +5,14 @@ import ru.serce.jnrfuse.flags.AccessConstants;
 import ru.serce.jnrfuse.struct.FileStat;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.nio.file.AccessMode;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.EnumSet;
 import java.util.Set;
 
+@Singleton
 public class FileAttributesUtil {
 
     // uid/gid are overwritten by fuse mount options -ouid=...

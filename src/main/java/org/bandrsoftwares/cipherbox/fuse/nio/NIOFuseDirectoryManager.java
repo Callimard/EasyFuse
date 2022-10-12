@@ -109,17 +109,14 @@ public abstract class NIOFuseDirectoryManager extends NIOFuseManager implements 
     @Override
     public int rmdir(String path) {
         Path physicalPath = getPathRecover().recover(Paths.get(path));
-
         try {
             log.trace("Remove directory {}", path);
-            if (Files.isDirectory(physicalPath, LinkOption.NOFOLLOW_LINKS)) {
-                throw new NotDirectoryException(physicalPath.toString());
+            if (!Files.isDirectory(physicalPath, LinkOption.NOFOLLOW_LINKS)) {
+                log.warn("Fail to remove directory {} because it is not a directory", physicalPath);
+                return -ErrorCodes.ENOTDIR();
             }
             Files.delete(physicalPath);
             return 0;
-        } catch (NotDirectoryException e) {
-            log.warn("Fail to remove directory {} because it is not a directory", physicalPath);
-            return -ErrorCodes.ENOTDIR();
         } catch (DirectoryNotEmptyException e) {
             log.warn("Fail to remove directory {} because it is not empty", physicalPath);
             return -ErrorCodes.ENOTEMPTY();

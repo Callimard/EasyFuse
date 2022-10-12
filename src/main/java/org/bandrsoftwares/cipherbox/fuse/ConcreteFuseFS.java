@@ -12,6 +12,7 @@ import ru.serce.jnrfuse.struct.Statvfs;
 import ru.serce.jnrfuse.struct.Timespec;
 
 import javax.inject.Inject;
+import java.nio.file.Paths;
 
 @Slf4j
 public class ConcreteFuseFS extends FuseStubFS {
@@ -51,8 +52,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int mkdir(String path, long mode) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return directoryManager.mkdir(path, mode);
         } catch (RuntimeException e) {
             log.error("Fail to create dir for " + path, e);
@@ -62,8 +62,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int readdir(String path, Pointer buf, FuseFillDir filter, long offset, FuseFileInfo fi) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockRead()) {
             return directoryManager.readdir(path, buf, filter, offset, fi);
         } catch (RuntimeException e) {
             log.error("Fail to readdir for " + path, e);
@@ -73,8 +72,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int rmdir(String path) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return directoryManager.rmdir(path);
         } catch (RuntimeException e) {
             log.error("Fail to remove dir for " + path, e);
@@ -86,8 +84,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int create(String path, long mode, FuseFileInfo fi) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fileManager.create(path, mode, fi);
         } catch (RuntimeException e) {
             log.error("Fail to create and open file for " + path + " in mode " + mode, e);
@@ -97,8 +94,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int open(String path, FuseFileInfo fi) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockRead()) {
             return fileManager.open(path, fi);
         } catch (RuntimeException e) {
             log.error("Fail to open file for " + path, e);
@@ -108,8 +104,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int read(String path, Pointer buf, long size, long offset, FuseFileInfo fi) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockRead()) {
             return fileManager.read(fi, buf, size, offset);
         } catch (RuntimeException e) {
             log.error("Fail to read file for " + path + " with FH " + fi.fh, e);
@@ -119,8 +114,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int write(String path, Pointer buf, long size, long offset, FuseFileInfo fi) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fileManager.write(fi, buf, size, offset);
         } catch (RuntimeException e) {
             log.error("Fail to write file for " + path + " with FH " + fi.fh, e);
@@ -130,8 +124,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int truncate(String path, long size) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fileManager.truncate(path, size);
         } catch (RuntimeException e) {
             log.error("Fail to to truncate file for " + path, e);
@@ -141,8 +134,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int ftruncate(String path, long size, FuseFileInfo fi) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fileManager.ftruncate(fi, size);
         } catch (RuntimeException e) {
             log.error("Fail to ftruncate file for " + path + " with FH " + fi.fh, e);
@@ -152,8 +144,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int utimens(String path, Timespec[] timeSpec) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fileManager.utimens(path, timeSpec);
         } catch (RuntimeException e) {
             log.error("Fail to utimens file for " + path, e);
@@ -163,8 +154,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int fsync(String path, int isDataSync, FuseFileInfo fi) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fileManager.fsync(fi, isDataSync == 0);
         } catch (RuntimeException e) {
             log.error("Fail to fsync file for " + path + " <with FH " + fi.fh, e);
@@ -174,8 +164,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int release(String path, FuseFileInfo fi) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fileManager.release(fi);
         } catch (RuntimeException e) {
             log.error("Fail to release file for " + path + " with FH " + fi.fh, e);
@@ -187,8 +176,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int symlink(String targetPath, String linkPath) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(linkPath)).lockWrite()) {
             return linkManager.symlink(targetPath, linkPath);
         } catch (RuntimeException e) {
             log.error("Fail to create symbolic link for targetPath " + targetPath + " and linkPath " + linkPath, e);
@@ -198,8 +186,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int readlink(String path, Pointer buf, long size) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockRead()) {
             return linkManager.readlink(path, buf, size);
         } catch (RuntimeException e) {
             log.error("Fail to read link for " + path, e);
@@ -216,8 +203,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int access(String path, int mask) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockRead()) {
             return fsActionManager.access(path, mask);
         } catch (RuntimeException e) {
             log.error("Fail to get access for " + path + " and mask " + mask, e);
@@ -227,8 +213,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int getattr(String path, FileStat stat) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockRead()) {
             return fsActionManager.getattr(path, stat);
         } catch (RuntimeException e) {
             log.error("Fail to get attributes for " + path, e);
@@ -238,8 +223,8 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int rename(String oldPath, String newPath) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(oldPath)).lockWrite();
+             PathLock ignoredNewPath = fuseLockManager.getLock(Paths.get(newPath)).lockWrite()) {
             return fsActionManager.rename(oldPath, newPath);
         } catch (RuntimeException e) {
             log.error("Fail to rename file with oldPath " + oldPath + " and newPath " + newPath, e);
@@ -249,8 +234,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int unlink(String path) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fsActionManager.unlink(path);
         } catch (RuntimeException e) {
             log.error("Fail to delete file " + path, e);
@@ -260,8 +244,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int chown(String path, long uid, long gid) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fsActionManager.chown(path, uid, gid);
         } catch (RuntimeException e) {
             log.error("Fail to chown " + path + " with uid " + uid + " and gid " + gid, e);
@@ -271,8 +254,7 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Override
     public int chmod(String path, long mode) {
-        // TODO Add lock
-        try {
+        try (PathLock ignored = fuseLockManager.getLock(Paths.get(path)).lockWrite()) {
             return fsActionManager.chmod(path, mode);
         } catch (RuntimeException e) {
             log.error("Fail to chmod " + path + " with mode " + mode, e);

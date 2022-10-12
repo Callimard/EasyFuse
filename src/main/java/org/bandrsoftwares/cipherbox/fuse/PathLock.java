@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.io.Closeable;
 import java.nio.file.Path;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -12,8 +11,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * Lock associated to a specific {@link java.nio.file.Path}.
  * <p>
- * This class implements {@link AutoCloseable} to be used in "Try with resources" statement. In that way, methods {@link #lockRead()} and
- * {@link #lockWrite()} can be call in a try and the developer does not need to be preoccupied by lock release.
+ * This class implements {@link AutoCloseable} to be used in "Try with resources" statement. In that way, methods {@link #lockToRead()} and
+ * {@link #lockToWrite()} can be call in a try and the developer does not need to be preoccupied by lock release.
  * <p>
  * Here an example how to do it:
  * <pre>{@code
@@ -25,7 +24,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 @Getter
 @RequiredArgsConstructor
-public class PathLock implements Closeable {
+public class PathLock {
 
     // Variables.
 
@@ -34,24 +33,18 @@ public class PathLock implements Closeable {
 
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock(true);
 
+    private final CloseableLock readPathLock = new CloseableLock(rwLock.readLock());
+    private final CloseableLock writePathLock = new CloseableLock(rwLock.writeLock());
+
     // Methods.
 
-    public PathLock lockRead() {
-        rwLock.readLock().lock();
-        return this;
+    public CloseableLock lockToRead() {
+        readPathLock.lock();
+        return readPathLock;
     }
 
-    public PathLock lockWrite() {
-        rwLock.writeLock().lock();
-        return this;
-    }
-
-    /**
-     * Unlock all lock (read and write).
-     */
-    @Override
-    public void close() {
-        rwLock.readLock().unlock();
-        rwLock.writeLock().unlock();
+    public CloseableLock lockToWrite() {
+        writePathLock.lock();
+        return writePathLock;
     }
 }

@@ -3,7 +3,7 @@ package org.bandrsoftwares.cipherbox.fuse;
 import ru.serce.jnrfuse.struct.FileStat;
 import ru.serce.jnrfuse.struct.Statvfs;
 
-public interface FuseFSActionManager {
+public interface FuseFSActionManager extends FuseManager {
 
     int statfs(String path, Statvfs stbuf);
 

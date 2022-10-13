@@ -40,6 +40,6 @@ public class BasicFileReferenceGenerator implements FileReferenceGenerator {
     @Documented
     @Qualifier
     @Retention(RetentionPolicy.RUNTIME)
-    @interface BufferSize {
+    public @interface BufferSize {
     }
 }

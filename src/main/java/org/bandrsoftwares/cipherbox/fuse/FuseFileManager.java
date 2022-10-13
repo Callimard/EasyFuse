@@ -4,7 +4,7 @@ import jnr.ffi.Pointer;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
 import ru.serce.jnrfuse.struct.Timespec;
 
-public interface FuseFileManager {
+public interface FuseFileManager extends FuseManager {
 
     int create(String path, long mode, FuseFileInfo fi);
 

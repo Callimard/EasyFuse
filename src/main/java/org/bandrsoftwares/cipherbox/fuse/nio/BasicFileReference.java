@@ -52,8 +52,9 @@ public class BasicFileReference implements FileReference {
 
     @Override
     public int read(Pointer buf, long size, long offset) throws IOException {
-        if (offset >= size) {
-            log.warn("Try to read over file size");
+        long fcSize = fileChannel.size();
+        if (offset >= fcSize) {
+            log.warn("Try to read over file size, Current file channel size {}, offset {}, size {}", fcSize, offset, size);
             return 0;
         }
 
@@ -65,10 +66,10 @@ public class BasicFileReference implements FileReference {
             long remaining = size - pos;
             int read = readNext(buffer, remaining);
 
-            if (read != -1) {
-                // Impossible case
-                log.error("Read until EOF -> IMPOSSIBLE CASE");
-                return (int) pos;
+            if (read == -1) {
+                buf.put(pos, buffer.array(), 0, buffer.position());
+                pos += buffer.position();
+                break; // Very important
             } else {
                 buf.put(pos, buffer.array(), 0, read);
                 pos += read;

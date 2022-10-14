@@ -20,7 +20,7 @@ public class NIOGuiceModule extends AbstractModule {
 
         bind(FileAttributesUtil.class);
 
-        bind(PhysicalPathRecover.class).to(OneDirectoryLinkPathRecover.class);
+        bind(PhysicalPathRecover.class).to(OneEntryPointPathRecover.class);
 
         bind(FileReferenceGenerator.class).to(BasicFileReferenceGenerator.class);
         bind(FileReferenceFactory.class).to(BasicFileReferenceFactory.class);
@@ -35,7 +35,7 @@ public class NIOGuiceModule extends AbstractModule {
     }
 
     @Provides
-    @OneDirectoryLinkPathRecover.RootDirectory
+    @OneEntryPointPathRecover.RootDirectory
     public Path provideRootDirectory() {
         return Paths.get("C:\\Users\\guilr\\iCloudDrive");
     }

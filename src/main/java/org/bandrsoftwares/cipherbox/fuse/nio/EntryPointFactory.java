@@ -14,6 +14,17 @@ public interface EntryPointFactory {
      * @param entryPointName the entry point name
      *
      * @return the physical directory associated to the entry point
+     *
+     * @throws EntryPointNotFoundException if the entry point is not found
      */
     Path getPhysicalDirectoryOf(String entryPointName);
+
+    class EntryPointNotFoundException extends RuntimeException {
+
+        // Constructors.
+
+        public EntryPointNotFoundException(String entryPointName) {
+            super("Entry Point with the name " + entryPointName + " has been not found");
+        }
+    }
 }

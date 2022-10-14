@@ -23,7 +23,7 @@ import java.nio.file.Paths;
 @Slf4j
 @Getter
 @Singleton
-public class OneDirectoryLinkPathRecover implements PhysicalPathRecover {
+public class OneEntryPointPathRecover implements PhysicalPathRecover {
 
     // Variables.
 
@@ -33,7 +33,7 @@ public class OneDirectoryLinkPathRecover implements PhysicalPathRecover {
     // Constructors.
 
     @Inject
-    OneDirectoryLinkPathRecover(@RootDirectory @NonNull Path rootDirectory) {
+    OneEntryPointPathRecover(@RootDirectory @NonNull Path rootDirectory) {
         this.rootDirectory = rootDirectory;
     }
 

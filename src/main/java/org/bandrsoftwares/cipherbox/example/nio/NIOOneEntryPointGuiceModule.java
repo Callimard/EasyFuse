@@ -8,7 +8,7 @@ import org.bandrsoftwares.cipherbox.fuse.nio.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class NIOGuiceModule extends AbstractModule {
+public class NIOOneEntryPointGuiceModule extends AbstractModule {
 
     // Methods.
 
@@ -20,12 +20,13 @@ public class NIOGuiceModule extends AbstractModule {
 
         bind(FileAttributesUtil.class);
 
-        bind(PhysicalPathRecover.class).to(OneDirectoryLinkPathRecover.class);
+        bind(PhysicalPathRecover.class).to(OneEntryPointPathRecover.class);
 
         bind(FileReferenceGenerator.class).to(BasicFileReferenceGenerator.class);
         bind(FileReferenceFactory.class).to(BasicFileReferenceFactory.class);
         bind(FuseFileManager.class).to(NIOFuseFileManager.class);
 
+        bind(DirectoryFileFilter.class).to(BasicDirectoryFileFilter.class);
         bind(FuseDirectoryManager.class).to(NIOFuseDirectoryManager.class);
 
         bind(FuseLinkManager.class).to(NIOFuseLinkManager.class);
@@ -34,9 +35,9 @@ public class NIOGuiceModule extends AbstractModule {
     }
 
     @Provides
-    @OneDirectoryLinkPathRecover.RootDirectory
+    @OneEntryPointPathRecover.RootDirectory
     public Path provideRootDirectory() {
-        return Paths.get("C:\\Users\\YOUR_DIRECTORY");
+        return Paths.get("C:\\Users\\guilr\\iCloudDrive");
     }
 
     @Provides

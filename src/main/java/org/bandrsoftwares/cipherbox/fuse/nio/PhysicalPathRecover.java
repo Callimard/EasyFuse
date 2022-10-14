@@ -14,6 +14,17 @@ public interface PhysicalPathRecover {
      * @param fusePath the fuse path for which we want the physical path associated
      *
      * @return the physical path associated to the specified fuse path.
+     *
+     * @throws NotPossiblePhysicalPathRecoverException if the physical path recover is not possible
      */
     Path recover(@NonNull Path fusePath);
+
+    class NotPossiblePhysicalPathRecoverException extends RuntimeException {
+
+        // Constructors.
+
+        public NotPossiblePhysicalPathRecoverException(Path fusePath) {
+            super("Impossible to recover the physical path of fuse path " + fusePath);
+        }
+    }
 }

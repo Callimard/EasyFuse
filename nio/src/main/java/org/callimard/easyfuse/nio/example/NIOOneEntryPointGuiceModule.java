@@ -37,7 +37,7 @@ public class NIOOneEntryPointGuiceModule extends AbstractModule {
     @Provides
     @OneEntryPointPathRecover.RootDirectory
     public Path provideRootDirectory() {
-        return Paths.get("C:\\Users\\guilr\\iCloudDrive");
+        return Paths.get("C:\\YOUR_DIRECTORY");
     }
 
     @Provides

@@ -48,8 +48,8 @@ public class NIOSeveralEntryPointGuiceModule extends AbstractModule {
     public List<EntryPoint> provideEntryPoint() {
         List<EntryPoint> entryPoints = Lists.newArrayList();
 
-        entryPoints.add(new EntryPoint("ICloud", Paths.get("C:\\Users\\guilr\\iCloudDrive")));
-        entryPoints.add(new EntryPoint("ShadowPlay", Paths.get("W:\\Shadow Play")));
+        entryPoints.add(new EntryPoint("ICloud", Paths.get("C:\\YOUR_DIRECTORY_1")));
+        entryPoints.add(new EntryPoint("ShadowPlay", Paths.get("W:\\YOUR_DIRECTORY_2")));
 
         return entryPoints;
     }

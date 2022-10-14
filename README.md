@@ -1,3 +1,3 @@
-# Cipher Box
+# Easy Fuse
 
-Software use to manipulate ciphered file in transparent way.
+Java Library for easily implement a file system with Fuse and Java 

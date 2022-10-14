@@ -50,6 +50,7 @@ public class NIOEntryPointFuseDirectoryManager extends NIOFuseDirectoryManager {
     public int readdir(String path, Pointer buf, FuseFillDir filter, long offset, FuseFileInfo fi) {
         var fusePath = Paths.get(path);
         if (isFuseRootPath(fusePath)) {
+            log.trace("Read directory from Fuse FS root path {}", path);
             return applyEntryPointNames(path, buf, filter, entryPointFactory.entryPointNames());
         } else {
             return super.readdir(path, buf, filter, offset, fi);
@@ -69,7 +70,7 @@ public class NIOEntryPointFuseDirectoryManager extends NIOFuseDirectoryManager {
     @Override
     public int rmdir(String path) {
         var fusePath = Paths.get(path);
-        if (isFuseRootPath(fusePath) || isEntryPointRoo(fusePath)) {
+        if (isEntryPointRoot(fusePath)) {
             // Cannot remove these paths.
             log.warn("Impossible to remove the directory {}, it is the Fuse FS root or a Entry Point root", path);
             return -ErrorCodes.EACCES();
@@ -82,7 +83,7 @@ public class NIOEntryPointFuseDirectoryManager extends NIOFuseDirectoryManager {
         return path.getNameCount() == 0;
     }
 
-    private boolean isEntryPointRoo(Path path) {
+    private boolean isEntryPointRoot(Path path) {
         return path.getNameCount() == 1;
     }
 }

@@ -24,7 +24,7 @@ public interface PhysicalPathRecover {
         // Constructors.
 
         public NotPossiblePhysicalPathRecoverException(Path fusePath) {
-            super("Impossible to recover the physical path of fuse path" + fusePath);
+            super("Impossible to recover the physical path of fuse path " + fusePath);
         }
     }
 }

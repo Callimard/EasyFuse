@@ -44,8 +44,13 @@ public class SeveralEntryPointPathRecover implements PhysicalPathRecover {
     }
 
     private static Path extractRelevantPath(Path fusePath) {
-        Path relevantPath = fusePath.subpath(1, fusePath.getNameCount());
-        relevantPath = Paths.get(CharMatcher.anyOf("/\\").trimLeadingFrom(relevantPath.toString())); // Useless but it is a protection
+        Path relevantPath;
+        if (fusePath.getNameCount() > 1) {
+            relevantPath = fusePath.subpath(1, fusePath.getNameCount());
+            relevantPath = Paths.get(CharMatcher.anyOf("/\\").trimLeadingFrom(relevantPath.toString())); // Useless but it is a protection
+        } else {
+            relevantPath = Paths.get("");
+        }
         return relevantPath;
     }
 }

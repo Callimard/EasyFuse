@@ -13,21 +13,13 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Slf4j
 @Singleton
 public class BasicEntryPointFactory implements EntryPointFactory {
 
     // Variables.
-
-    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock(true);
-    private final Lock readLock = readWriteLock.readLock();
-    private final Lock writeLock = readWriteLock.writeLock();
-
-    private final Map<String, Path> entryPointMap = Maps.newHashMap();
+    private final Map<String, Path> entryPointMap = Maps.newConcurrentMap();
 
     // Constructors.
 
@@ -42,26 +34,18 @@ public class BasicEntryPointFactory implements EntryPointFactory {
 
     @Override
     public List<String> entryPointNames() {
-        try {
-            readLock.lock();
-            return Lists.newArrayList(entryPointMap.keySet());
-        } finally {
-            readLock.unlock();
-        }
+        return Lists.newArrayList(entryPointMap.keySet());
     }
 
     @Override
     public Path getPhysicalDirectoryOf(String entryPointName) {
-        try {
-            readLock.lock();
-
-            Path directory = entryPointMap.get(entryPointName);
-            if (directory == null) throw new EntryPointNotFoundException(entryPointName);
-
-            return directory;
-        } finally {
-            readLock.unlock();
+        Path directory = entryPointMap.get(entryPointName);
+        if (directory == null) {
+            log.warn("Not found entry point for {}", entryPointName);
+            throw new EntryPointNotFoundException(entryPointName);
         }
+
+        return directory;
     }
 
     @Override
@@ -71,18 +55,14 @@ public class BasicEntryPointFactory implements EntryPointFactory {
             return false;
         }
 
-        try {
-            writeLock.lock();
+        // TODO Not thread safe
 
-            if (entryPointMap.containsKey(entryPointName)) {
-                log.warn("Try to add an entry point with an already used name {}", entryPointName);
-                return false;
-            }
-
-            entryPointMap.put(entryPointName, directory);
-            return true;
-        } finally {
-            writeLock.lock();
+        if (entryPointMap.containsKey(entryPointName)) {
+            log.warn("Try to add an entry point with an already used name {}", entryPointName);
+            return false;
         }
+
+        entryPointMap.put(entryPointName, directory);
+        return true;
     }
 }

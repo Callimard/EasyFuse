@@ -9,6 +9,7 @@ import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.FuseFillDir;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
@@ -25,11 +26,16 @@ public class NIOFuseDirectoryManager extends NIOFuseManager implements FuseDirec
 
     public static final Path PARENT_DIR = Paths.get("..");
 
+    // Variables.
+
+    private final DirectoryFileFilter directoryFileFilter;
+
     // Constructors.
 
     @Inject
-    NIOFuseDirectoryManager(@NonNull PhysicalPathRecover pathRecover) {
+    NIOFuseDirectoryManager(@NonNull PhysicalPathRecover pathRecover, @Nullable DirectoryFileFilter directoryFileFilter) {
         super(pathRecover);
+        this.directoryFileFilter = directoryFileFilter;
     }
 
     // Methods.
@@ -55,7 +61,7 @@ public class NIOFuseDirectoryManager extends NIOFuseManager implements FuseDirec
         Path physicalPath = getPathRecover().recover(Paths.get(path));
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(physicalPath)) {
             log.trace("Read dir {}", path);
-            fillDirectory(stream, buf, filter, fi);
+            fillDirectory(physicalPath, stream, buf, filter, fi);
             return 0;
         } catch (BufferOutOfMemoryException e) {
             log.warn("Buffer out of memory during read dir for {}", physicalPath);
@@ -69,34 +75,31 @@ public class NIOFuseDirectoryManager extends NIOFuseManager implements FuseDirec
         }
     }
 
-    private void fillDirectory(DirectoryStream<Path> stream, Pointer buf, FuseFillDir filter, FuseFileInfo fi) throws BufferOutOfMemoryException {
+    private void fillDirectory(Path directoryPhysicalPath, DirectoryStream<Path> stream, Pointer buf, FuseFillDir filter, FuseFileInfo fi)
+            throws BufferOutOfMemoryException {
         Iterator<Path> currentAndParent = Iterators.forArray(CURRENT_DIR, PARENT_DIR);
         Iterator<Path> iterator = Iterators.concat(currentAndParent, stream.iterator());
         while (iterator.hasNext()) {
             Path directoryFile = iterator.next();
-            applyFile(directoryFile, buf, filter, fi);
-        }
-    }
-
-    protected void applyFile(Path filePath, Pointer buf, FuseFillDir filler, FuseFileInfo fi) throws BufferOutOfMemoryException {
-        if (fileCanBeDisplayedInDirectory(filePath)) {
-            String displayedName = getDisplayedName(filePath.getFileName().toString());
-            if (filler.apply(buf, displayedName, null, 0) != 0) {
-                throw new BufferOutOfMemoryException();
+            if (accept(directoryPhysicalPath, directoryFile)) {
+                applyFile(directoryFile, buf, filter, fi);
             }
         }
     }
 
-    /**
-     * Method called in {@link #applyFile(Path, Pointer, FuseFillDir, FuseFileInfo)} to know if a file can be displayed or not in a fuse fs directory.
-     * By default, this method returns true if the file name does not start by a "." and is not the "desktop.ini" file.
-     *
-     * @param filePath the file path to verify
-     *
-     * @return true if the file can be displayed in a fuse fs directory, else false.
-     */
-    protected boolean fileCanBeDisplayedInDirectory(@NonNull Path filePath) {
-        return !filePath.getFileName().startsWith(".") && !filePath.getFileName().equals(Paths.get("desktop.ini"));
+    private boolean accept(Path directoryPhysicalPath, Path directoryFile) {
+        boolean accepted = true;
+        if (directoryFileFilter != null) {
+            accepted = directoryFileFilter.accept(directoryPhysicalPath, directoryFile);
+        }
+        return accepted;
+    }
+
+    protected void applyFile(Path filePath, Pointer buf, FuseFillDir filler, FuseFileInfo fi) throws BufferOutOfMemoryException {
+        String displayedName = getDisplayedName(filePath.getFileName().toString());
+        if (filler.apply(buf, displayedName, null, 0) != 0) {
+            throw new BufferOutOfMemoryException();
+        }
     }
 
     /**

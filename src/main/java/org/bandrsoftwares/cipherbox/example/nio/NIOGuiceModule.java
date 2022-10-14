@@ -26,6 +26,7 @@ public class NIOGuiceModule extends AbstractModule {
         bind(FileReferenceFactory.class).to(BasicFileReferenceFactory.class);
         bind(FuseFileManager.class).to(NIOFuseFileManager.class);
 
+        bind(DirectoryFileFilter.class).to(BasicDirectoryFileFilter.class);
         bind(FuseDirectoryManager.class).to(NIOFuseDirectoryManager.class);
 
         bind(FuseLinkManager.class).to(NIOFuseLinkManager.class);
@@ -36,7 +37,7 @@ public class NIOGuiceModule extends AbstractModule {
     @Provides
     @OneDirectoryLinkPathRecover.RootDirectory
     public Path provideRootDirectory() {
-        return Paths.get("C:\\Users\\YOUR_DIRECTORY");
+        return Paths.get("C:\\Users\\guilr\\iCloudDrive");
     }
 
     @Provides

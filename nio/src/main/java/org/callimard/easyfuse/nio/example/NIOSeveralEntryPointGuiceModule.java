@@ -39,6 +39,10 @@ public class NIOSeveralEntryPointGuiceModule extends AbstractModule {
         bind(NIOLinkAttributeGetter.class).to(BasicLinkAttributeGetter.class);
         bind(FuseAttributeGetterManager.class).to(NIOEntryPointFuseAttributeGetterManager.class);
 
+        bind(FuseTruncateManager.class).to(NIOFuseTruncateManager.class);
+
+        bind(FuseUtimensManager.class).to(NIOFuseUtimensManager.class);
+
         bind(FuseFSActionManager.class).to(NIOEntryPointFuseFSActionManager.class);
     }
 

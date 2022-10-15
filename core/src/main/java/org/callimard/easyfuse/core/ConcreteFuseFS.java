@@ -34,7 +34,13 @@ public class ConcreteFuseFS extends FuseStubFS {
     private final FuseLinkManager linkManager;
 
     @NonNull
-    private final FuseAttributeGetterManager fuseAttributeGetterManager;
+    private final FuseAttributeGetterManager attributeGetterManager;
+
+    @NonNull
+    private final FuseTruncateManager truncateManager;
+
+    @NonNull
+    private final FuseUtimensManager utimensManager;
 
     @NonNull
     private final FuseFSActionManager fsActionManager;
@@ -43,13 +49,17 @@ public class ConcreteFuseFS extends FuseStubFS {
 
     @Inject
     public ConcreteFuseFS(@NonNull FuseLockManager fuseLockManager, @NonNull FuseFileManager fileManager,
-                          @NonNull FuseDirectoryManager directoryManager, @NonNull FuseLinkManager linkManager,
-                          @NonNull FuseAttributeGetterManager fuseAttributeGetterManager, @NonNull FuseFSActionManager fsActionManager) {
+                          @NonNull FuseDirectoryManager directoryManager,
+                          @NonNull FuseLinkManager linkManager, @NonNull FuseAttributeGetterManager attributeGetterManager,
+                          @NonNull FuseTruncateManager truncateManager, @NonNull FuseUtimensManager utimensManager,
+                          @NonNull FuseFSActionManager fsActionManager) {
         this.fuseLockManager = fuseLockManager;
         this.fileManager = fileManager;
         this.directoryManager = directoryManager;
         this.linkManager = linkManager;
-        this.fuseAttributeGetterManager = fuseAttributeGetterManager;
+        this.attributeGetterManager = attributeGetterManager;
+        this.truncateManager = truncateManager;
+        this.utimensManager = utimensManager;
         this.fsActionManager = fsActionManager;
     }
 
@@ -132,7 +142,7 @@ public class ConcreteFuseFS extends FuseStubFS {
     @Override
     public int truncate(String path, long size) {
         try (CloseableLock ignored = fuseLockManager.getLock(Paths.get(path)).lockToWrite()) {
-            return fileManager.truncate(path, size);
+            return truncateManager.truncate(path, size);
         } catch (RuntimeException e) {
             log.error("Fail to to truncate file for " + path, e);
             return -ErrorCodes.EIO();
@@ -152,7 +162,7 @@ public class ConcreteFuseFS extends FuseStubFS {
     @Override
     public int utimens(String path, Timespec[] timeSpec) {
         try (CloseableLock ignored = fuseLockManager.getLock(Paths.get(path)).lockToWrite()) {
-            return fileManager.utimens(path, timeSpec);
+            return utimensManager.utimens(path, timeSpec);
         } catch (RuntimeException e) {
             log.error("Fail to utimens file for " + path, e);
             return -ErrorCodes.EIO();
@@ -221,7 +231,7 @@ public class ConcreteFuseFS extends FuseStubFS {
     @Override
     public int getattr(String path, FileStat stat) {
         try (CloseableLock ignored = fuseLockManager.getLock(Paths.get(path)).lockToRead()) {
-            return fuseAttributeGetterManager.getAttribute(path, stat);
+            return attributeGetterManager.getAttribute(path, stat);
         } catch (RuntimeException e) {
             log.error("Fail to get attributes for " + path, e);
             return -ErrorCodes.EIO();
@@ -278,7 +288,7 @@ public class ConcreteFuseFS extends FuseStubFS {
         directoryManager.init(this);
         linkManager.init(this);
         fsActionManager.init(this);
-        fuseAttributeGetterManager.init(this);
+        attributeGetterManager.init(this);
 
         return conn;
     }

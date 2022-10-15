@@ -18,7 +18,7 @@ public class NIOEntryPointFuseFSActionManager extends NIOFuseFSActionManager {
     // Constructors.
 
     @Inject
-    NIOEntryPointFuseFSActionManager(@NonNull SeveralEntryPointPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
+    public NIOEntryPointFuseFSActionManager(@NonNull SeveralEntryPointPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
         super(pathRecover, fileAttributesUtil);
     }
 

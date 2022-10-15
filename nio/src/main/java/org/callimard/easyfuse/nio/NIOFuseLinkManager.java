@@ -20,7 +20,7 @@ public class NIOFuseLinkManager extends NIOFuseManager implements FuseLinkManage
     // Constructors.
 
     @Inject
-    NIOFuseLinkManager(@NonNull PhysicalPathRecover pathRecover) {
+    public NIOFuseLinkManager(@NonNull PhysicalPathRecover pathRecover) {
         super(pathRecover);
     }
 

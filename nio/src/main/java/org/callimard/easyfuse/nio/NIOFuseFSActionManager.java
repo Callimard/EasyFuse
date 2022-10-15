@@ -34,7 +34,7 @@ public class NIOFuseFSActionManager extends NIOFuseManager implements FuseFSActi
     // Constructors.
 
     @Inject
-    NIOFuseFSActionManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
+    public NIOFuseFSActionManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
         super(pathRecover);
         this.fileAttributesUtil = fileAttributesUtil;
     }

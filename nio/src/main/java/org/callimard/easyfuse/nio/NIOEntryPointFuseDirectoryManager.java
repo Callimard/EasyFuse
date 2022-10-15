@@ -26,7 +26,7 @@ public class NIOEntryPointFuseDirectoryManager extends NIOFuseDirectoryManager {
     // Constructors.
 
     @Inject
-    NIOEntryPointFuseDirectoryManager(@NonNull EntryPointFactory entryPointFactory, @NonNull SeveralEntryPointPathRecover pathRecover,
+    public NIOEntryPointFuseDirectoryManager(@NonNull EntryPointFactory entryPointFactory, @NonNull SeveralEntryPointPathRecover pathRecover,
                                       @Nullable DirectoryFileFilter directoryFileFilter) {
         super(pathRecover, directoryFileFilter);
         this.entryPointFactory = entryPointFactory;

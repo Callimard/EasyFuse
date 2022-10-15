@@ -24,7 +24,7 @@ public class BasicEntryPointFactory implements EntryPointFactory {
     // Constructors.
 
     @Inject
-    BasicEntryPointFactory(@EntryPointList @Nullable List<EntryPoint> entryPoints) {
+    public BasicEntryPointFactory(@EntryPointList @Nullable List<EntryPoint> entryPoints) {
         if (entryPoints != null) for (EntryPoint entryPoint : entryPoints) {
             addEntryPoint(entryPoint.name(), entryPoint.directory());
         }

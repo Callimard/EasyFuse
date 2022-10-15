@@ -33,7 +33,7 @@ public class OneEntryPointPathRecover implements PhysicalPathRecover {
     // Constructors.
 
     @Inject
-    OneEntryPointPathRecover(@RootDirectory @NonNull Path rootDirectory) {
+    public OneEntryPointPathRecover(@RootDirectory @NonNull Path rootDirectory) {
         this.rootDirectory = rootDirectory;
     }
 

@@ -1,5 +1,6 @@
 package org.callimard.easyfuse.nio;
 
+import lombok.Getter;
 import lombok.NonNull;
 
 import javax.annotation.Nullable;
@@ -13,6 +14,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 
 @Singleton
+@Getter
 public class BasicFileReferenceGenerator implements FileReferenceGenerator {
 
     // Variables.
@@ -22,7 +24,7 @@ public class BasicFileReferenceGenerator implements FileReferenceGenerator {
     // Constructors.
 
     @Inject
-    BasicFileReferenceGenerator(@BufferSize @Nullable Integer fileReferenceBufferSize) {
+    public BasicFileReferenceGenerator(@BufferSize @Nullable Integer fileReferenceBufferSize) {
         this.fileReferenceBufferSize = fileReferenceBufferSize != null ? fileReferenceBufferSize : -1;
     }
 

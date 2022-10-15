@@ -10,7 +10,7 @@ public class BasicDirectoryFileFilter implements DirectoryFileFilter {
     // Constructors.
 
     @Inject
-    BasicDirectoryFileFilter() {
+    public BasicDirectoryFileFilter() {
         // Nothing.
     }
 

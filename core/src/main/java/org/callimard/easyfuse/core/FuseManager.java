@@ -4,9 +4,9 @@ import lombok.NonNull;
 
 public interface FuseManager {
 
-    ConcreteFuseFS getFuseFS();
+    EasyFuseFS getFuseFS();
 
-    void init(@NonNull ConcreteFuseFS fuseFS);
+    void init(@NonNull EasyFuseFS fuseFS);
 
     default boolean hasBeenInitialized() {
         return getFuseFS() != null;

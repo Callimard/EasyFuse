@@ -289,8 +289,10 @@ public class EasyFuseFS extends FuseStubFS {
         fileManager.init(this);
         directoryManager.init(this);
         linkManager.init(this);
-        globalActionManager.init(this);
         attributeGetterManager.init(this);
+        truncateManager.init(this);
+        utimensManager.init(this);
+        globalActionManager.init(this);
 
         return conn;
     }

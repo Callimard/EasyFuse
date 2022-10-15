@@ -11,7 +11,7 @@ import org.callimard.easyfuse.nio.file.*;
 import org.callimard.easyfuse.nio.directory.NIODirectoryFileFilter;
 import org.callimard.easyfuse.nio.link.LinkAttributeGetter;
 import org.callimard.easyfuse.nio.link.NIOLinkAttributeGetter;
-import org.callimard.easyfuse.nio.lock.PathLockManagerImpl;
+import org.callimard.easyfuse.core.lock.PathLockManagerImpl;
 import org.callimard.easyfuse.nio.manager.*;
 import org.callimard.easyfuse.nio.pathrecover.OneMountPointPathRecover;
 import org.callimard.easyfuse.nio.pathrecover.PhysicalPathRecover;

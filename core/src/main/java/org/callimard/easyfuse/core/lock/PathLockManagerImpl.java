@@ -1,4 +1,4 @@
-package org.callimard.easyfuse.nio.lock;
+package org.callimard.easyfuse.core.lock;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -6,8 +6,6 @@ import com.google.common.cache.LoadingCache;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.callimard.easyfuse.core.EasyFuseFS;
-import org.callimard.easyfuse.core.lock.PathLock;
-import org.callimard.easyfuse.core.lock.PathLockManager;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -6,7 +6,7 @@ import com.google.inject.Injector;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.ConcreteFuseFS;
+import org.callimard.easyfuse.core.EasyFuseFS;
 import ru.serce.jnrfuse.FuseStubFS;
 
 import java.nio.file.Paths;
@@ -16,9 +16,9 @@ import java.util.Scanner;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NIOFuseFSStartUtils {
 
-    public static void chargeAndStartFuseFS(Class<? extends ConcreteFuseFS> fuseFSClass, AbstractModule guiceModule) {
+    public static void chargeAndStartFuseFS(Class<? extends EasyFuseFS> fuseFSClass, AbstractModule guiceModule) {
         try {
-            ConcreteFuseFS nioFuseFS;
+            EasyFuseFS nioFuseFS;
             Injector injector = Guice.createInjector(guiceModule);
             nioFuseFS = injector.getInstance(fuseFSClass);
 

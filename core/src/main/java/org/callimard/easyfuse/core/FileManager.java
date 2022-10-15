@@ -3,7 +3,7 @@ package org.callimard.easyfuse.core;
 import jnr.ffi.Pointer;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
 
-public interface FuseFileManager extends FuseManager {
+public interface FileManager extends FuseManager {
 
     int create(String path, long mode, FuseFileInfo fi);
 

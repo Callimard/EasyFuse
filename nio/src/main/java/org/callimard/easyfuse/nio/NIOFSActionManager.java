@@ -3,7 +3,7 @@ package org.callimard.easyfuse.nio;
 import com.google.common.collect.Iterables;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.FuseFSActionManager;
+import org.callimard.easyfuse.core.GlobalActionManager;
 import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.struct.Statvfs;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Slf4j
 @Singleton
-public class NIOFuseFSActionManager extends NIOFuseManager implements FuseFSActionManager {
+public class NIOFSActionManager extends NIOFuseManager implements GlobalActionManager {
 
     // Constants.
 
@@ -29,7 +29,7 @@ public class NIOFuseFSActionManager extends NIOFuseManager implements FuseFSActi
     // Constructors.
 
     @Inject
-    public NIOFuseFSActionManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
+    public NIOFSActionManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
         super(pathRecover);
         this.fileAttributesUtil = fileAttributesUtil;
     }

@@ -1,7 +1,7 @@
 package org.callimard.easyfuse.nio;
 
 import lombok.NonNull;
-import org.callimard.easyfuse.core.ConcreteFuseFS;
+import org.callimard.easyfuse.core.EasyFuseFS;
 import ru.serce.jnrfuse.struct.FileStat;
 
 import javax.inject.Inject;
@@ -20,7 +20,7 @@ public class BasicDirectoryAttributeGetter extends BasicAttributeGetter implemen
     // Methods.
 
     @Override
-    public int getAttribute(BasicFileAttributes attributes, FileStat stat, ConcreteFuseFS fuseFS) {
+    public int getAttribute(BasicFileAttributes attributes, FileStat stat, EasyFuseFS fuseFS) {
         if (attributes instanceof PosixFileAttributes posixAttr) {
             long mode = getFileAttributesUtil().posixPermissionsToOctalMode(posixAttr.permissions());
             mode = mode & 0555;

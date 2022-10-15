@@ -2,7 +2,7 @@ package org.callimard.easyfuse.core;
 
 import ru.serce.jnrfuse.struct.Statvfs;
 
-public interface FuseFSActionManager extends FuseManager {
+public interface GlobalActionManager extends FuseManager {
 
     int statfs(String path, Statvfs stbuf);
 

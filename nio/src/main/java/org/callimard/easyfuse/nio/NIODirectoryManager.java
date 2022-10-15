@@ -4,7 +4,7 @@ import com.google.common.collect.Iterators;
 import jnr.ffi.Pointer;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.FuseDirectoryManager;
+import org.callimard.easyfuse.core.DirectoryManager;
 import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.FuseFillDir;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
@@ -18,7 +18,7 @@ import java.util.Iterator;
 
 @Slf4j
 @Singleton
-public class NIOFuseDirectoryManager extends NIOFuseManager implements FuseDirectoryManager {
+public class NIODirectoryManager extends NIOFuseManager implements DirectoryManager {
 
     // Constants.
 
@@ -33,7 +33,7 @@ public class NIOFuseDirectoryManager extends NIOFuseManager implements FuseDirec
     // Constructors.
 
     @Inject
-    public NIOFuseDirectoryManager(@NonNull PhysicalPathRecover pathRecover, @Nullable DirectoryFileFilter directoryFileFilter) {
+    public NIODirectoryManager(@NonNull PhysicalPathRecover pathRecover, @Nullable DirectoryFileFilter directoryFileFilter) {
         super(pathRecover);
         this.directoryFileFilter = directoryFileFilter;
     }

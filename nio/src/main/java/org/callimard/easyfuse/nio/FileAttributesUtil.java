@@ -1,7 +1,7 @@
 package org.callimard.easyfuse.nio;
 
 import jnr.posix.util.Platform;
-import org.callimard.easyfuse.core.ConcreteFuseFS;
+import org.callimard.easyfuse.core.EasyFuseFS;
 import ru.serce.jnrfuse.flags.AccessConstants;
 import ru.serce.jnrfuse.struct.FileStat;
 
@@ -63,7 +63,7 @@ public class FileAttributesUtil {
         return mode;
     }
 
-    public void copyBasicFileAttributesFromNioToFuse(BasicFileAttributes attrs, FileStat stat, ConcreteFuseFS fuseFS) {
+    public void copyBasicFileAttributesFromNioToFuse(BasicFileAttributes attrs, FileStat stat, EasyFuseFS fuseFS) {
         if (attrs.isDirectory()) {
             stat.st_mode.set(stat.st_mode.longValue() | FileStat.S_IFDIR);
         } else if (attrs.isRegularFile()) {

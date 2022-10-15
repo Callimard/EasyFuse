@@ -2,7 +2,7 @@ package org.callimard.easyfuse.nio;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.FuseAttributeGetterManager;
+import org.callimard.easyfuse.core.AttributeGetterManager;
 import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.struct.FileStat;
 
@@ -16,7 +16,7 @@ import java.nio.file.attribute.PosixFileAttributes;
 
 @Slf4j
 @Singleton
-public class NIOFuseAttributeGetterManager extends NIOFuseManager implements FuseAttributeGetterManager {
+public class NIOAttributeGetterManager extends NIOFuseManager implements AttributeGetterManager {
 
     // Variables.
 
@@ -32,9 +32,9 @@ public class NIOFuseAttributeGetterManager extends NIOFuseManager implements Fus
     // Constructors.
 
     @Inject
-    public NIOFuseAttributeGetterManager(@NonNull PhysicalPathRecover pathRecover, @NonNull NIOFileAttributeGetter fileAttributeGetter,
-                                         @NonNull NIODirectoryAttributeGetter directoryAttributeGetter,
-                                         @NonNull NIOLinkAttributeGetter linkAttributeGetter) {
+    public NIOAttributeGetterManager(@NonNull PhysicalPathRecover pathRecover, @NonNull NIOFileAttributeGetter fileAttributeGetter,
+                                     @NonNull NIODirectoryAttributeGetter directoryAttributeGetter,
+                                     @NonNull NIOLinkAttributeGetter linkAttributeGetter) {
         super(pathRecover);
         this.fileAttributeGetter = fileAttributeGetter;
         this.directoryAttributeGetter = directoryAttributeGetter;

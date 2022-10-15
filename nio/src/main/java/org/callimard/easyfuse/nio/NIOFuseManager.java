@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.callimard.easyfuse.core.ConcreteFuseFS;
+import org.callimard.easyfuse.core.EasyFuseFS;
 import org.callimard.easyfuse.core.FuseManager;
 
 @Getter
@@ -19,12 +19,12 @@ public abstract class NIOFuseManager implements FuseManager {
     /**
      * Must be initialized.
      */
-    private ConcreteFuseFS fuseFS;
+    private EasyFuseFS fuseFS;
 
     // Methods.
 
     @Override
-    public void init(@NonNull ConcreteFuseFS fuseFS) {
+    public void init(@NonNull EasyFuseFS fuseFS) {
         if (!hasBeenInitialized()) this.fuseFS = fuseFS;
     }
 }

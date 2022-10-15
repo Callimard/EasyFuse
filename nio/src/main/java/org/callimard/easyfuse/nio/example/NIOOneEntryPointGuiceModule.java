@@ -3,6 +3,7 @@ package org.callimard.easyfuse.nio.example;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import org.callimard.easyfuse.core.*;
+import org.callimard.easyfuse.core.lock.PathLockManager;
 import org.callimard.easyfuse.nio.*;
 
 import java.nio.file.Path;
@@ -14,9 +15,9 @@ public class NIOOneEntryPointGuiceModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ConcreteFuseFS.class);
+        bind(EasyFuseFS.class);
 
-        bind(FuseLockManager.class).to(BasicFuseLockManager.class);
+        bind(PathLockManager.class).to(BasicPathLockManager.class);
 
         bind(FileAttributesUtil.class);
 
@@ -24,23 +25,23 @@ public class NIOOneEntryPointGuiceModule extends AbstractModule {
 
         bind(FileReferenceGenerator.class).to(BasicFileReferenceGenerator.class);
         bind(FileReferenceFactory.class).to(BasicFileReferenceFactory.class);
-        bind(FuseFileManager.class).to(NIOFuseFileManager.class);
+        bind(FileManager.class).to(NIOFileManager.class);
 
         bind(DirectoryFileFilter.class).to(BasicDirectoryFileFilter.class);
-        bind(FuseDirectoryManager.class).to(NIOFuseDirectoryManager.class);
+        bind(DirectoryManager.class).to(NIODirectoryManager.class);
 
-        bind(FuseLinkManager.class).to(NIOFuseLinkManager.class);
+        bind(LinkManager.class).to(NIOLinkManager.class);
 
         bind(NIOFileAttributeGetter.class).to(BasicFileAttributeGetter.class);
         bind(NIODirectoryAttributeGetter.class).to(BasicDirectoryAttributeGetter.class);
         bind(NIOLinkAttributeGetter.class).to(BasicLinkAttributeGetter.class);
-        bind(FuseAttributeGetterManager.class).to(NIOFuseAttributeGetterManager.class);
+        bind(AttributeGetterManager.class).to(NIOAttributeGetterManager.class);
 
-        bind(FuseTruncateManager.class).to(NIOFuseTruncateManager.class);
+        bind(TruncateManager.class).to(NIOTruncateManager.class);
 
-        bind(FuseUtimensManager.class).to(NIOFuseUtimensManager.class);
+        bind(UtimensManager.class).to(NIOUtimensManager.class);
 
-        bind(FuseFSActionManager.class).to(NIOFuseFSActionManager.class);
+        bind(GlobalActionManager.class).to(NIOFSActionManager.class);
     }
 
     @Provides

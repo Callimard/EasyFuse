@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @Singleton
-public class NIOEntryPointFuseDirectoryManager extends NIOFuseDirectoryManager {
+public class NIOEntryPointDirectoryManager extends NIODirectoryManager {
 
     // Variables.
 
@@ -26,8 +26,8 @@ public class NIOEntryPointFuseDirectoryManager extends NIOFuseDirectoryManager {
     // Constructors.
 
     @Inject
-    public NIOEntryPointFuseDirectoryManager(@NonNull EntryPointFactory entryPointFactory, @NonNull SeveralEntryPointPathRecover pathRecover,
-                                      @Nullable DirectoryFileFilter directoryFileFilter) {
+    public NIOEntryPointDirectoryManager(@NonNull EntryPointFactory entryPointFactory, @NonNull SeveralEntryPointPathRecover pathRecover,
+                                         @Nullable DirectoryFileFilter directoryFileFilter) {
         super(pathRecover, directoryFileFilter);
         this.entryPointFactory = entryPointFactory;
     }

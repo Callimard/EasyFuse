@@ -2,7 +2,7 @@ package org.callimard.easyfuse.core;
 
 import jnr.ffi.Pointer;
 
-public interface FuseLinkManager extends FuseManager {
+public interface LinkManager extends FuseManager {
 
     int symlink(String targetPath, String linkPath);
 

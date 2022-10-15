@@ -2,7 +2,7 @@ package org.callimard.easyfuse.nio;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.FuseTruncateManager;
+import org.callimard.easyfuse.core.TruncateManager;
 import ru.serce.jnrfuse.ErrorCodes;
 
 import javax.inject.Inject;
@@ -16,12 +16,12 @@ import java.nio.file.StandardOpenOption;
 
 @Slf4j
 @Singleton
-public class NIOFuseTruncateManager extends NIOFuseManager implements FuseTruncateManager {
+public class NIOTruncateManager extends NIOFuseManager implements TruncateManager {
 
     // Constructors.
 
     @Inject
-    public NIOFuseTruncateManager(@NonNull PhysicalPathRecover pathRecover) {
+    public NIOTruncateManager(@NonNull PhysicalPathRecover pathRecover) {
         super(pathRecover);
     }
 

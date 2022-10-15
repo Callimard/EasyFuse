@@ -3,7 +3,7 @@ package org.callimard.easyfuse.nio;
 import jnr.ffi.Pointer;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.FuseLinkManager;
+import org.callimard.easyfuse.core.LinkManager;
 import ru.serce.jnrfuse.ErrorCodes;
 
 import javax.inject.Inject;
@@ -15,12 +15,12 @@ import java.nio.file.*;
 
 @Slf4j
 @Singleton
-public class NIOFuseLinkManager extends NIOFuseManager implements FuseLinkManager {
+public class NIOLinkManager extends NIOFuseManager implements LinkManager {
 
     // Constructors.
 
     @Inject
-    public NIOFuseLinkManager(@NonNull PhysicalPathRecover pathRecover) {
+    public NIOLinkManager(@NonNull PhysicalPathRecover pathRecover) {
         super(pathRecover);
     }
 

@@ -1,4 +1,4 @@
-package org.callimard.easyfuse.core;
+package org.callimard.easyfuse.core.lock;
 
 import lombok.Getter;
 import lombok.NonNull;

@@ -5,9 +5,9 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.ConcreteFuseFS;
-import org.callimard.easyfuse.core.FuseLockManager;
-import org.callimard.easyfuse.core.PathLock;
+import org.callimard.easyfuse.core.EasyFuseFS;
+import org.callimard.easyfuse.core.lock.PathLockManager;
+import org.callimard.easyfuse.core.lock.PathLock;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Singleton
-public class BasicFuseLockManager implements FuseLockManager {
+public class BasicPathLockManager implements PathLockManager {
 
     // Variables.
 
@@ -29,12 +29,12 @@ public class BasicFuseLockManager implements FuseLockManager {
 
     private final LoadingCache<Path, PathLock> cache = CacheBuilder.newBuilder().build(lockLoader);
 
-    private ConcreteFuseFS fuseFS;
+    private EasyFuseFS fuseFS;
 
     // Constructors.
 
     @Inject
-    BasicFuseLockManager() {
+    BasicPathLockManager() {
         // Nothing.
     }
 
@@ -51,12 +51,12 @@ public class BasicFuseLockManager implements FuseLockManager {
     }
 
     @Override
-    public ConcreteFuseFS getFuseFS() {
+    public EasyFuseFS getFuseFS() {
         return fuseFS;
     }
 
     @Override
-    public void init(@NonNull ConcreteFuseFS fuseFS) {
+    public void init(@NonNull EasyFuseFS fuseFS) {
         if (!hasBeenInitialized())
             this.fuseFS = fuseFS;
     }

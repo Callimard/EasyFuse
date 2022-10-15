@@ -5,7 +5,7 @@ import jnr.constants.platform.OpenFlags;
 import jnr.ffi.Pointer;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.FuseFileManager;
+import org.callimard.easyfuse.core.FileManager;
 import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
 
@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Slf4j
 @Singleton
-public class NIOFuseFileManager extends NIOFuseManager implements FuseFileManager {
+public class NIOFileManager extends NIOFuseManager implements FileManager {
 
     // Variables.
 
@@ -34,8 +34,8 @@ public class NIOFuseFileManager extends NIOFuseManager implements FuseFileManage
     // Constructors.
 
     @Inject
-    public NIOFuseFileManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileReferenceFactory fileFactory,
-                              @NonNull FileAttributesUtil fileAttributesUtil) {
+    public NIOFileManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileReferenceFactory fileFactory,
+                          @NonNull FileAttributesUtil fileAttributesUtil) {
         super(pathRecover);
         this.fileFactory = fileFactory;
         this.fileAttributesUtil = fileAttributesUtil;

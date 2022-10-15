@@ -2,7 +2,7 @@ package org.callimard.easyfuse.nio;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.core.FuseUtimensManager;
+import org.callimard.easyfuse.core.UtimensManager;
 import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.struct.Timespec;
 
@@ -17,7 +17,7 @@ import java.time.Instant;
 
 @Slf4j
 @Singleton
-public class NIOFuseUtimensManager extends NIOFuseManager implements FuseUtimensManager {
+public class NIOUtimensManager extends NIOFuseManager implements UtimensManager {
 
     // Constants.
 
@@ -27,7 +27,7 @@ public class NIOFuseUtimensManager extends NIOFuseManager implements FuseUtimens
     // Constructors.
 
     @Inject
-    public NIOFuseUtimensManager(@NonNull PhysicalPathRecover pathRecover) {
+    public NIOUtimensManager(@NonNull PhysicalPathRecover pathRecover) {
         super(pathRecover);
     }
 

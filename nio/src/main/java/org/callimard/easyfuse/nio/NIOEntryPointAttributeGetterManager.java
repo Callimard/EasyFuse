@@ -12,14 +12,14 @@ import java.nio.file.Paths;
 
 @Slf4j
 @Singleton
-public class NIOEntryPointFuseAttributeGetterManager extends NIOFuseAttributeGetterManager {
+public class NIOEntryPointAttributeGetterManager extends NIOAttributeGetterManager {
 
     // Constructors.
 
     @Inject
-    public NIOEntryPointFuseAttributeGetterManager(@NonNull PhysicalPathRecover pathRecover, @NonNull NIOFileAttributeGetter fileAttributeGetter,
-                                                   @NonNull NIODirectoryAttributeGetter directoryAttributeGetter,
-                                                   @NonNull NIOLinkAttributeGetter linkAttributeGetter) {
+    public NIOEntryPointAttributeGetterManager(@NonNull PhysicalPathRecover pathRecover, @NonNull NIOFileAttributeGetter fileAttributeGetter,
+                                               @NonNull NIODirectoryAttributeGetter directoryAttributeGetter,
+                                               @NonNull NIOLinkAttributeGetter linkAttributeGetter) {
         super(pathRecover, fileAttributeGetter, directoryAttributeGetter, linkAttributeGetter);
     }
 

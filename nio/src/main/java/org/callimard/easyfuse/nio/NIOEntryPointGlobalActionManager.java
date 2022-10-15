@@ -11,12 +11,12 @@ import java.nio.file.Paths;
 
 @Slf4j
 @Singleton
-public class NIOEntryPointFuseFSActionManager extends NIOFuseFSActionManager {
+public class NIOEntryPointGlobalActionManager extends NIOFSActionManager {
 
     // Constructors.
 
     @Inject
-    public NIOEntryPointFuseFSActionManager(@NonNull SeveralEntryPointPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
+    public NIOEntryPointGlobalActionManager(@NonNull SeveralEntryPointPathRecover pathRecover, @NonNull FileAttributesUtil fileAttributesUtil) {
         super(pathRecover, fileAttributesUtil);
     }
 

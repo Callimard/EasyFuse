@@ -8,6 +8,7 @@ import ru.serce.jnrfuse.struct.FileStat;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFileAttributes;
 
@@ -24,7 +25,7 @@ public class NIOFileAttributeGetter extends NIOAttributeGetter implements FileAt
     // Methods.
 
     @Override
-    public int getAttribute(BasicFileAttributes attributes, FileStat stat, EasyFuseFS fuseFS) {
+    public int getAttribute(Path path, BasicFileAttributes attributes, FileStat stat, EasyFuseFS fuseFS) {
         if (attributes instanceof PosixFileAttributes posixAttr) {
             long mode = getAttributeUtil().posixPermissionsToOctalMode(posixAttr.permissions());
             mode = mode & 0555;

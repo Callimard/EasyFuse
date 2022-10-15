@@ -3,10 +3,10 @@ package org.callimard.easyfuse.nio.manager;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.callimard.easyfuse.core.AttributeGetterManager;
-import org.callimard.easyfuse.nio.pathrecover.PhysicalPathRecover;
 import org.callimard.easyfuse.nio.directory.DirectoryAttributeGetter;
 import org.callimard.easyfuse.nio.file.FileAttributeGetter;
 import org.callimard.easyfuse.nio.link.LinkAttributeGetter;
+import org.callimard.easyfuse.nio.pathrecover.PhysicalPathRecover;
 import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.struct.FileStat;
 
@@ -64,11 +64,11 @@ public class NIOAttributeGetterManager extends NIOFuseManager implements Attribu
             }
 
             if (attrs.isRegularFile()) {
-                return fileAttributeGetter.getAttribute(attrs, stat, getFuseFS());
+                return fileAttributeGetter.getAttribute(physicalPath, attrs, stat, getFuseFS());
             } else if (attrs.isDirectory()) {
-                return directoryAttributeGetter.getAttribute(attrs, stat, getFuseFS());
+                return directoryAttributeGetter.getAttribute(physicalPath, attrs, stat, getFuseFS());
             } else if (attrs.isSymbolicLink()) {
-                return linkAttributeGetter.getAttribute(attrs, stat, getFuseFS());
+                return linkAttributeGetter.getAttribute(physicalPath, attrs, stat, getFuseFS());
             } else {
                 log.warn("Fail to get attr of {} because file type is not supported", physicalPath);
                 return -ErrorCodes.ENOTSUP();

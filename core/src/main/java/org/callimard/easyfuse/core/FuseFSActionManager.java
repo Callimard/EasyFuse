@@ -1,6 +1,5 @@
 package org.callimard.easyfuse.core;
 
-import ru.serce.jnrfuse.struct.FileStat;
 import ru.serce.jnrfuse.struct.Statvfs;
 
 public interface FuseFSActionManager extends FuseManager {
@@ -8,8 +7,6 @@ public interface FuseFSActionManager extends FuseManager {
     int statfs(String path, Statvfs stbuf);
 
     int access(String path, int mask);
-
-    int getattr(String path, FileStat stat);
 
     int rename(String oldPath, String newPath);
 

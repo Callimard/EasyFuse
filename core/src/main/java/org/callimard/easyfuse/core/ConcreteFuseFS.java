@@ -34,6 +34,9 @@ public class ConcreteFuseFS extends FuseStubFS {
     private final FuseLinkManager linkManager;
 
     @NonNull
+    private final FuseAttributeGetterManager fuseAttributeGetterManager;
+
+    @NonNull
     private final FuseFSActionManager fsActionManager;
 
     // Constructors.
@@ -41,11 +44,12 @@ public class ConcreteFuseFS extends FuseStubFS {
     @Inject
     public ConcreteFuseFS(@NonNull FuseLockManager fuseLockManager, @NonNull FuseFileManager fileManager,
                           @NonNull FuseDirectoryManager directoryManager, @NonNull FuseLinkManager linkManager,
-                          @NonNull FuseFSActionManager fsActionManager) {
+                          @NonNull FuseAttributeGetterManager fuseAttributeGetterManager, @NonNull FuseFSActionManager fsActionManager) {
         this.fuseLockManager = fuseLockManager;
         this.fileManager = fileManager;
         this.directoryManager = directoryManager;
         this.linkManager = linkManager;
+        this.fuseAttributeGetterManager = fuseAttributeGetterManager;
         this.fsActionManager = fsActionManager;
     }
 
@@ -217,7 +221,7 @@ public class ConcreteFuseFS extends FuseStubFS {
     @Override
     public int getattr(String path, FileStat stat) {
         try (CloseableLock ignored = fuseLockManager.getLock(Paths.get(path)).lockToRead()) {
-            return fsActionManager.getattr(path, stat);
+            return fuseAttributeGetterManager.getAttribute(path, stat);
         } catch (RuntimeException e) {
             log.error("Fail to get attributes for " + path, e);
             return -ErrorCodes.EIO();
@@ -274,6 +278,7 @@ public class ConcreteFuseFS extends FuseStubFS {
         directoryManager.init(this);
         linkManager.init(this);
         fsActionManager.init(this);
+        fuseAttributeGetterManager.init(this);
 
         return conn;
     }

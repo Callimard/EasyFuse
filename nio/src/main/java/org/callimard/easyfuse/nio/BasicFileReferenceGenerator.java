@@ -22,7 +22,7 @@ public class BasicFileReferenceGenerator implements FileReferenceGenerator {
     // Constructors.
 
     @Inject
-    BasicFileReferenceGenerator(@BufferSize @Nullable Integer fileReferenceBufferSize) {
+    public BasicFileReferenceGenerator(@BufferSize @Nullable Integer fileReferenceBufferSize) {
         this.fileReferenceBufferSize = fileReferenceBufferSize != null ? fileReferenceBufferSize : -1;
     }
 

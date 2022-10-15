@@ -33,7 +33,7 @@ public class NIOFuseDirectoryManager extends NIOFuseManager implements FuseDirec
     // Constructors.
 
     @Inject
-    NIOFuseDirectoryManager(@NonNull PhysicalPathRecover pathRecover, @Nullable DirectoryFileFilter directoryFileFilter) {
+    public NIOFuseDirectoryManager(@NonNull PhysicalPathRecover pathRecover, @Nullable DirectoryFileFilter directoryFileFilter) {
         super(pathRecover);
         this.directoryFileFilter = directoryFileFilter;
     }

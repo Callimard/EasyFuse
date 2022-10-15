@@ -21,7 +21,7 @@ public class SeveralEntryPointPathRecover implements PhysicalPathRecover {
     // Constructors.
 
     @Inject
-    SeveralEntryPointPathRecover(@NonNull EntryPointFactory entryPointFactory) {
+    public SeveralEntryPointPathRecover(@NonNull EntryPointFactory entryPointFactory) {
         this.entryPointFactory = entryPointFactory;
     }
 

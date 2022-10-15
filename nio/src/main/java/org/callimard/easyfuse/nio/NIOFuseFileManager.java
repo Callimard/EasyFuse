@@ -41,8 +41,8 @@ public class NIOFuseFileManager extends NIOFuseManager implements FuseFileManage
     // Constructors.
 
     @Inject
-    NIOFuseFileManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileReferenceFactory fileFactory,
-                       @NonNull FileAttributesUtil fileAttributesUtil) {
+    public NIOFuseFileManager(@NonNull PhysicalPathRecover pathRecover, @NonNull FileReferenceFactory fileFactory,
+                              @NonNull FileAttributesUtil fileAttributesUtil) {
         super(pathRecover);
         this.fileFactory = fileFactory;
         this.fileAttributesUtil = fileAttributesUtil;

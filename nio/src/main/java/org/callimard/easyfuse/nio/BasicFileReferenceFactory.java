@@ -35,7 +35,7 @@ public class BasicFileReferenceFactory implements FileReferenceFactory {
     // Constructors.
 
     @Inject
-    BasicFileReferenceFactory(@NonNull FileReferenceGenerator fileReferenceGenerator) {
+    public BasicFileReferenceFactory(@NonNull FileReferenceGenerator fileReferenceGenerator) {
         this.fileReferenceGenerator = fileReferenceGenerator;
     }
 

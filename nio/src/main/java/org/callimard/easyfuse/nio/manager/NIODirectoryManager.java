@@ -5,8 +5,9 @@ import jnr.ffi.Pointer;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.callimard.easyfuse.core.DirectoryManager;
-import org.callimard.easyfuse.nio.pathrecover.PhysicalPathRecover;
 import org.callimard.easyfuse.nio.directory.DirectoryFileFilter;
+import org.callimard.easyfuse.nio.directory.FileNameTransformer;
+import org.callimard.easyfuse.nio.pathrecover.PhysicalPathRecover;
 import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.FuseFillDir;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
@@ -32,12 +33,16 @@ public class NIODirectoryManager extends NIOFuseManager implements DirectoryMana
 
     private final DirectoryFileFilter directoryFileFilter;
 
+    private final FileNameTransformer fileNameTransformer;
+
     // Constructors.
 
     @Inject
-    public NIODirectoryManager(@NonNull PhysicalPathRecover pathRecover, @Nullable DirectoryFileFilter directoryFileFilter) {
+    public NIODirectoryManager(@NonNull PhysicalPathRecover pathRecover, @Nullable DirectoryFileFilter directoryFileFilter,
+                               @Nullable FileNameTransformer fileNameTransformer) {
         super(pathRecover);
         this.directoryFileFilter = directoryFileFilter;
+        this.fileNameTransformer = fileNameTransformer;
     }
 
     // Methods.
@@ -112,7 +117,11 @@ public class NIODirectoryManager extends NIOFuseManager implements DirectoryMana
      * @return a transformed file name which will be the file name displayed in a fuse fs directory
      */
     protected String getDisplayedName(@NonNull String fileName) {
-        return fileName;
+        if (fileNameTransformer != null) {
+            return fileNameTransformer.transformFileName(fileName);
+        } else {
+            return fileName;
+        }
     }
 
     @Override

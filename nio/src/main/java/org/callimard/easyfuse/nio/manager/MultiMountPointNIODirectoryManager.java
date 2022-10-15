@@ -3,9 +3,10 @@ package org.callimard.easyfuse.nio.manager;
 import jnr.ffi.Pointer;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.callimard.easyfuse.nio.pathrecover.MultiMountPointPathRecover;
 import org.callimard.easyfuse.nio.directory.DirectoryFileFilter;
+import org.callimard.easyfuse.nio.directory.FileNameTransformer;
 import org.callimard.easyfuse.nio.mountpoint.MountPointFactory;
+import org.callimard.easyfuse.nio.pathrecover.MultiMountPointPathRecover;
 import ru.serce.jnrfuse.ErrorCodes;
 import ru.serce.jnrfuse.FuseFillDir;
 import ru.serce.jnrfuse.struct.FuseFileInfo;
@@ -30,8 +31,8 @@ public class MultiMountPointNIODirectoryManager extends NIODirectoryManager {
 
     @Inject
     public MultiMountPointNIODirectoryManager(@NonNull MountPointFactory mountPointFactory, @NonNull MultiMountPointPathRecover pathRecover,
-                                              @Nullable DirectoryFileFilter directoryFileFilter) {
-        super(pathRecover, directoryFileFilter);
+                                              @Nullable DirectoryFileFilter directoryFileFilter, @Nullable FileNameTransformer fileNameTransformer) {
+        super(pathRecover, directoryFileFilter, fileNameTransformer);
         this.mountPointFactory = mountPointFactory;
     }
 

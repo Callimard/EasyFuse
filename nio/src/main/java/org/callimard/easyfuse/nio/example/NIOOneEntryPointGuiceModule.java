@@ -31,6 +31,11 @@ public class NIOOneEntryPointGuiceModule extends AbstractModule {
 
         bind(FuseLinkManager.class).to(NIOFuseLinkManager.class);
 
+        bind(NIOFileAttributeGetter.class).to(BasicFileAttributeGetter.class);
+        bind(NIODirectoryAttributeGetter.class).to(BasicDirectoryAttributeGetter.class);
+        bind(NIOLinkAttributeGetter.class).to(BasicLinkAttributeGetter.class);
+        bind(FuseAttributeGetterManager.class).to(NIOFuseAttributeGetterManager.class);
+
         bind(FuseFSActionManager.class).to(NIOFuseFSActionManager.class);
     }
 

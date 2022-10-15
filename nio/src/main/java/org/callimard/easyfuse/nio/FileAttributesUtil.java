@@ -1,11 +1,14 @@
 package org.callimard.easyfuse.nio;
 
+import jnr.posix.util.Platform;
+import org.callimard.easyfuse.core.ConcreteFuseFS;
 import ru.serce.jnrfuse.flags.AccessConstants;
 import ru.serce.jnrfuse.struct.FileStat;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.nio.file.AccessMode;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.EnumSet;
 import java.util.Set;
@@ -58,6 +61,39 @@ public class FileAttributesUtil {
         if (permissions.contains(PosixFilePermission.OTHERS_EXECUTE)) mode = mode | FileStat.S_IXOTH;
         // @formatter:on
         return mode;
+    }
+
+    public void copyBasicFileAttributesFromNioToFuse(BasicFileAttributes attrs, FileStat stat, ConcreteFuseFS fuseFS) {
+        if (attrs.isDirectory()) {
+            stat.st_mode.set(stat.st_mode.longValue() | FileStat.S_IFDIR);
+        } else if (attrs.isRegularFile()) {
+            stat.st_mode.set(stat.st_mode.longValue() | FileStat.S_IFREG);
+        } else if (attrs.isSymbolicLink()) {
+            stat.st_mode.set(stat.st_mode.longValue() | FileStat.S_IFLNK);
+        }
+        stat.st_uid.set(fuseFS.getContext().uid.get());
+        stat.st_gid.set(fuseFS.getContext().gid.get());
+
+        stat.st_mtim.tv_sec.set(attrs.lastModifiedTime().toInstant().getEpochSecond());
+        stat.st_mtim.tv_nsec.set(attrs.lastModifiedTime().toInstant().getNano());
+        stat.st_ctim.tv_sec.set(attrs.creationTime().toInstant().getEpochSecond());
+        stat.st_ctim.tv_nsec.set(attrs.creationTime().toInstant().getNano());
+
+        if (Platform.IS_MAC || Platform.IS_WINDOWS) {
+            stat.st_birthtime.tv_sec.set(attrs.creationTime().toInstant().getEpochSecond());
+            stat.st_birthtime.tv_nsec.set(attrs.creationTime().toInstant().getNano());
+        }
+
+        stat.st_atim.tv_sec.set(attrs.lastAccessTime().toInstant().getEpochSecond());
+        stat.st_atim.tv_nsec.set(attrs.lastAccessTime().toInstant().getNano());
+        stat.st_size.set(attrs.size());
+        stat.st_nlink.set(1);
+        // make sure to nil certain fields known to contain garbage from uninitialized memory
+        // fixes alleged permission bugs, see https://github.com/cryptomator/fuse-nio-adapter/issues/19
+        if (Platform.IS_MAC) {
+            stat.st_flags.set(0);
+            stat.st_gen.set(0);
+        }
     }
 
 }

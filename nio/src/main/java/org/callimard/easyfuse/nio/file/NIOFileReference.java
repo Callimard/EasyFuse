@@ -53,10 +53,8 @@ public class NIOFileReference implements FileReference {
     @Override
     public int read(Pointer buf, long size, long offset) throws IOException {
         long fcSize = fileChannel.size();
-        if (offset >= fcSize) {
-            log.warn("Try to read over file size, Current file channel size {}, offset {}, size {}", fcSize, offset, size);
-            return 0;
-        }
+
+        size = Math.min(fcSize - offset, size);
 
         ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
 
@@ -67,6 +65,7 @@ public class NIOFileReference implements FileReference {
             int read = readNext(buffer, remaining);
 
             if (read == -1) {
+                log.warn("Reach EOF -> MUST NEVER HAPPEN");
                 buf.put(pos, buffer.array(), 0, buffer.position());
                 pos += buffer.position();
                 break; // Very important

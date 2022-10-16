@@ -3,20 +3,18 @@ package org.callimard.easyfuse.nio.example;
 import com.google.common.collect.Lists;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.util.Providers;
 import org.callimard.easyfuse.core.*;
+import org.callimard.easyfuse.core.lock.PathLockManagerImpl;
 import org.callimard.easyfuse.nio.attribute.AttributeUtil;
-import org.callimard.easyfuse.nio.directory.DirectoryAttributeGetter;
-import org.callimard.easyfuse.nio.directory.DirectoryFileFilter;
-import org.callimard.easyfuse.nio.directory.NIODirectoryAttributeGetter;
-import org.callimard.easyfuse.nio.mountpoint.MountPoint;
-import org.callimard.easyfuse.nio.mountpoint.MountPointFactory;
+import org.callimard.easyfuse.nio.directory.*;
 import org.callimard.easyfuse.nio.file.*;
-import org.callimard.easyfuse.nio.directory.NIODirectoryFileFilter;
-import org.callimard.easyfuse.nio.mountpoint.MountPointFactoryImpl;
 import org.callimard.easyfuse.nio.link.LinkAttributeGetter;
 import org.callimard.easyfuse.nio.link.NIOLinkAttributeGetter;
-import org.callimard.easyfuse.core.lock.PathLockManagerImpl;
 import org.callimard.easyfuse.nio.manager.*;
+import org.callimard.easyfuse.nio.mountpoint.MountPoint;
+import org.callimard.easyfuse.nio.mountpoint.MountPointFactory;
+import org.callimard.easyfuse.nio.mountpoint.MountPointFactoryImpl;
 import org.callimard.easyfuse.nio.pathrecover.MultiMountPointPathRecover;
 import org.callimard.easyfuse.nio.pathrecover.PhysicalPathRecover;
 
@@ -56,6 +54,8 @@ public class MultiMountPointNIOGuiceModule extends AbstractModule {
         bind(TruncateManager.class).to(NIOTruncateManager.class);
 
         bind(UtimensManager.class).to(NIOUtimensManager.class);
+
+        bind(FileNameTransformer.class).toProvider(Providers.of(null));
 
         bind(GlobalActionManager.class).to(MultiMountPointNIOGlobalActionManager.class);
     }

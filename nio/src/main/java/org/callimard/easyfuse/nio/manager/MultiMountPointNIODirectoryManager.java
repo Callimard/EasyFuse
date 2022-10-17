@@ -55,7 +55,7 @@ public class MultiMountPointNIODirectoryManager extends NIODirectoryManager {
         var fusePath = Paths.get(path);
         if (isFuseRootPath(fusePath)) {
             log.trace("Read directory from Fuse FS root path {}", path);
-            return applyEntryPointNames(path, buf, filter, mountPointFactory.entryPointNames());
+            return applyEntryPointNames(path, buf, filter, mountPointFactory.mountPointNames());
         } else {
             return super.readdir(path, buf, filter, offset, fi);
         }

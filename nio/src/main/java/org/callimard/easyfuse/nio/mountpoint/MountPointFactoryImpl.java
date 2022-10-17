@@ -19,50 +19,50 @@ import java.util.Map;
 public class MountPointFactoryImpl implements MountPointFactory {
 
     // Variables.
-    private final Map<String, Path> entryPointMap = Maps.newConcurrentMap();
+    private final Map<String, Path> mountPointMap = Maps.newConcurrentMap();
 
     // Constructors.
 
     @Inject
     public MountPointFactoryImpl(@EntryPointList @Nullable List<MountPoint> mountPoints) {
         if (mountPoints != null) for (MountPoint mountPoint : mountPoints) {
-            addEntryPoint(mountPoint.name(), mountPoint.directory());
+            var added = addMountPoint(mountPoint.name(), mountPoint.directory());
+            if (!added) {
+                log.warn("Fail to add mount point {} at the MountPointFactoryImpl construction", mountPoint);
+            }
         }
     }
 
     // Methods.
 
     @Override
-    public List<String> entryPointNames() {
-        return Lists.newArrayList(entryPointMap.keySet());
+    public List<String> mountPointNames() {
+        return Lists.newArrayList(mountPointMap.keySet());
     }
 
     @Override
-    public Path getPhysicalDirectoryOf(String entryPointName) {
-        Path directory = entryPointMap.get(entryPointName);
+    public Path getPhysicalDirectoryOf(String mountPointName) {
+        Path directory = mountPointMap.get(mountPointName);
         if (directory == null) {
-            log.warn("Not found entry point for {}", entryPointName);
-            throw new EntryPointNotFoundException(entryPointName);
+            log.warn("Not found entry point for {}", mountPointName);
+            throw new EntryPointNotFoundException(mountPointName);
         }
 
         return directory;
     }
 
     @Override
-    public boolean addEntryPoint(@NonNull String entryPointName, @NonNull Path directory) {
+    public boolean addMountPoint(@NonNull String mountPointName, @NonNull Path directory) {
         if (!Files.isDirectory(directory, LinkOption.NOFOLLOW_LINKS)) {
             log.warn("Try to add an entry point with not a directory");
             return false;
         }
 
-        // TODO Not thread safe
-
-        if (entryPointMap.containsKey(entryPointName)) {
-            log.warn("Try to add an entry point with an already used name {}", entryPointName);
+        if (mountPointMap.putIfAbsent(mountPointName, directory) != null) {
+            log.warn("Try to add an mount point with an already used name {}", mountPointName);
             return false;
         }
 
-        entryPointMap.put(entryPointName, directory);
         return true;
     }
 }

@@ -14,7 +14,7 @@ public interface MountPointFactory {
     /**
      * @return a {@link List} which contains all names of each entry points. Never returns null.
      */
-    List<String> entryPointNames();
+    List<String> mountPointNames();
 
     /**
      * @param entryPointName the entry point name
@@ -36,7 +36,7 @@ public interface MountPointFactory {
      *
      * @return true if the entry point has been added, else false.
      */
-    boolean addEntryPoint(@NonNull String entryPointName, @NonNull Path directory);
+    boolean addMountPoint(@NonNull String entryPointName, @NonNull Path directory);
 
     class EntryPointNotFoundException extends RuntimeException {
 

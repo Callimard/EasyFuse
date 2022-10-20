@@ -65,10 +65,8 @@ public class NIOFileReference implements FileReference {
             int read = readNext(buffer, remaining);
 
             if (read == -1) {
-                log.warn("Reach EOF -> MUST NEVER HAPPEN");
-                buf.put(pos, buffer.array(), 0, buffer.position());
-                pos += buffer.position();
-                break; // Very important
+                log.warn("Reach EOF -> Surely due to concurrent read/write operations");
+                return (int) pos;
             } else {
                 buf.put(pos, buffer.array(), 0, read);
                 pos += read;
